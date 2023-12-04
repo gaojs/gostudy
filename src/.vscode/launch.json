@@ -1,0 +1,18 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [{
+        "name": "Launch",
+        "type": "go",
+        "request": "launch",
+        "mode": "auto",  "env": { // 环境变量配置 go env即可查询到
+            "GOPATH":"C:\\Users\\0701\\Downloads\\code\\gostudy",
+            "GOOS":"windows" // 指定运行平台
+        },
+        "program": "${workspaceFolder}", // 执行程序，这里是项目默认的根目录
+        "args":[], // 程序启动参数 如 ["-env" , 'prod']
+        "console": "integratedTerminal" // 使终端支持fmt.Scanf方式的指令输入
+    }]
+}
