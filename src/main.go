@@ -1,22 +1,38 @@
 package main
 
-import (
-	"fmt"
-	"unsafe"
-)
+import "fmt"
+
+func switchDemo() {
+	print("他是：")
+	switch age := 10; {
+	case age < 12:
+		println("儿童")
+		fallthrough
+	case age < 18:
+		println("少年")
+	case age > 60:
+		println("老人")
+	default:
+		println("成年")
+	}
+}
+func switchType() {
+	// var x interface{} = 10
+	var x any = nil
+	print("x类型：")
+	switch t := x.(type) {
+	case int, uint:
+		println("整数")
+	case float32, float64:
+		println("小数")
+	case string:
+		println("字符串")
+	default:
+		fmt.Printf("%T\n", t)
+	}
+}
 
 func main() {
-	var f32 float32     // 4字节
-	var f64 float64     // 8字节
-	var c64 complex64   // 8字节
-	var c128 complex128 // 16字节
-	fmt.Println("float32=", unsafe.Sizeof(f32))
-	fmt.Println("float64=", unsafe.Sizeof(f64))
-	fmt.Println("complex64=", unsafe.Sizeof(c64))
-	fmt.Println("complex128=", unsafe.Sizeof(c128))
-	var i uint8 = 3
-	var j = ^i       // 按位取反：252
-	var k = 0xFF ^ i // 按位异或:252
-	println("j=", j)
-	println("k=", k)
+	switchDemo()
+	switchType()
 }
