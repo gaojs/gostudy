@@ -31,7 +31,8 @@ func funcArgs() {
 }
 
 func Demo() {
-	funcDemo()
-	funcArgs()
-	funcInit()
+	// funcDemo()
+	// funcArgs()
+	// funcInit()
+	funcAnon()
 }

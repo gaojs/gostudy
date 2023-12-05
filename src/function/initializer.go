@@ -1,4 +1,4 @@
-// init函数演示
+// init()函数的演示
 
 package function
 
