@@ -1,7 +1,7 @@
 package main
 
 import (
-	"main/leetcode"
+	"main/function"
 )
 
 func main() {
@@ -9,5 +9,7 @@ func main() {
 	// operator.Demo()
 	// controller.Demo()
 	// identifier.Demo()
-	leetcode.Demo()
+	// leetcode.Demo()
+	println("main()")
+	function.Demo()
 }
