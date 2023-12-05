@@ -1,15 +1,13 @@
 package main
 
 import (
-	"main/controller"
-	"main/datatype"
-	"main/identifier"
-	"main/operator"
+	"main/leetcode"
 )
 
 func main() {
-	datatype.Demo()
-	operator.Demo()
-	controller.Demo()
-	identifier.Demo()
+	// datatype.Demo()
+	// operator.Demo()
+	// controller.Demo()
+	// identifier.Demo()
+	leetcode.Demo()
 }
