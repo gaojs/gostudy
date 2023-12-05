@@ -34,5 +34,6 @@ func Demo() {
 	// funcDemo()
 	// funcArgs()
 	// funcInit()
-	funcAnon()
+	// funcAnon()
+	funcClos()
 }
