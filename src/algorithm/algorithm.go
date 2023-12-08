@@ -29,7 +29,7 @@ func binarySearch(a []int, e int) int {
 	return -1
 }
 
-func Demo() {
+func bsDemo() {
 	a := []int{8, 98, 3, 20, 123}
 	fmt.Println("原数组：", a)
 	bubbleSort(a)
@@ -39,4 +39,9 @@ func Demo() {
 	fmt.Println("50的位置：", binarySearch(a, 50))
 	fmt.Println("98的位置：", binarySearch(a, 98))
 	fmt.Println("125的位置：", binarySearch(a, 125))
+}
+
+func Demo() {
+	// bsDemo()
+	sortDemo()
 }

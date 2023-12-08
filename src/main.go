@@ -1,8 +1,6 @@
 package main
 
-import (
-	"main/structure"
-)
+import "main/algorithm"
 
 func main() {
 	// datatype.Demo()
@@ -14,7 +12,7 @@ func main() {
 	// function.Demo()
 	// builtin.Demo()
 	// array.Demo()
-	// algorithm.Demo()
 	// mapper.Demo()
-	structure.Demo()
+	// structure.Demo()
+	algorithm.Demo()
 }
