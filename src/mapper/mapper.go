@@ -1,3 +1,4 @@
+// 映射（引用类型）
 package mapper
 
 import (

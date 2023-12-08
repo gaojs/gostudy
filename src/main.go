@@ -1,7 +1,7 @@
 package main
 
 import (
-	"main/mapper"
+	"main/structure"
 )
 
 func main() {
@@ -15,5 +15,6 @@ func main() {
 	// builtin.Demo()
 	// array.Demo()
 	// algorithm.Demo()
-	mapper.Demo()
+	// mapper.Demo()
+	structure.Demo()
 }
