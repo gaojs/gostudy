@@ -1,7 +1,7 @@
 package main
 
 import (
-	"main/function"
+	"main/builtin"
 )
 
 func main() {
@@ -11,5 +11,6 @@ func main() {
 	// identifier.Demo()
 	// leetcode.Demo()
 	println("main()")
-	function.Demo()
+	// function.Demo()
+	builtin.Demo()
 }
