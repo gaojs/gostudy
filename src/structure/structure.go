@@ -93,5 +93,6 @@ func Demo() {
 	// jsonDemo()
 	// methodDemo()
 	// factoryDemo()
-	extendDemo()
+	// extendDemo()
+	interfaceDemo()
 }
