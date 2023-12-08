@@ -33,8 +33,29 @@ func transDemo() {
 	}
 }
 
+func array2d() {
+	a := [3][3]int{{1}, {2, 3}, {4, 5, 6}}
+	for i := 0; i < len(a); i++ {
+		for j := 0; j < len(a[i]); j++ {
+			fmt.Print(a[i][j], " ")
+		}
+		println()
+	}
+}
+func slice2d() {
+	a := [][]int{{1}, {2, 3}, {4, 5, 6}}
+	for _, s := range a {
+		for _, e := range s {
+			fmt.Print(e, " ")
+		}
+		println()
+	}
+}
+
 func Demo() {
 	// initDemo()
 	// transDemo()
-	sliceDemo()
+	// sliceDemo()
+	array2d()
+	slice2d()
 }

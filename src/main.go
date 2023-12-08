@@ -1,8 +1,6 @@
 package main
 
-import (
-	"main/algorithm"
-)
+import "main/array"
 
 func main() {
 	// datatype.Demo()
@@ -13,6 +11,6 @@ func main() {
 	println("main()")
 	// function.Demo()
 	// builtin.Demo()
-	// array.Demo()
-	algorithm.Demo()
+	array.Demo()
+	// algorithm.Demo()
 }
