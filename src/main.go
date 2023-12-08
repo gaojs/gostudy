@@ -1,7 +1,7 @@
 package main
 
 import (
-	"main/array"
+	"main/algorithm"
 )
 
 func main() {
@@ -13,5 +13,6 @@ func main() {
 	println("main()")
 	// function.Demo()
 	// builtin.Demo()
-	array.Demo()
+	// array.Demo()
+	algorithm.Demo()
 }
