@@ -20,6 +20,10 @@ func (p Phone) Stop() {
 	fmt.Println(p.Name, "手机，停止工作")
 }
 
+func (p Phone) Call() {
+	fmt.Println(p.Name, "手机，可以打电话")
+}
+
 type Camera struct {
 	Name string
 }
@@ -37,6 +41,9 @@ type Computer struct{}
 // 函数参数，是一种多态
 func (c *Computer) Working(usb Usb) {
 	usb.Start()
+	if phone, ok := usb.(Phone); ok {
+		phone.Call() // 类型断言成功
+	}
 	usb.Stop()
 }
 
