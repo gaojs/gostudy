@@ -94,6 +94,6 @@ func Demo() {
 	// methodDemo()
 	// factoryDemo()
 	// extendDemo()
-	interfaceDemo()
-	// assertDemo()
+	// interfaceDemo()
+	assertDemo()
 }
