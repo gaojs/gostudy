@@ -1,16 +1,15 @@
 package main
 
-import "main/identifier"
+import (
+	"main/identifier"
+)
 
 func main() {
 	// println("main()")
-	// datatype.Demo()
-	// operator.Demo()
-	// controller.Demo()
 	identifier.Demo()
+	// controller.Demo()
 	// leetcode.Demo()
 	// function.Demo()
-	// builtin.Demo()
 	// array.Demo()
 	// mapper.Demo()
 	// structure.Demo()

@@ -1,5 +1,5 @@
 // 内置函数
-package builtin
+package identifier
 
 import (
 	"errors"
@@ -72,7 +72,7 @@ func panicDemo() {
 	fmt.Println("未产生Panic！")
 }
 
-func Demo() {
+func builtinDemo() {
 	// stringDemo()
 	// timeDemo()
 	divideZero()

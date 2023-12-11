@@ -9,8 +9,8 @@ func iotaDemo() {
 	// iota [aɪˈəʊtə] 极少量
 	const ( // 遇到const置0
 		n1 = iota // 这里是0
-		n2 = 100  // 每行增1，这是100
-		n3 = iota // 每行增1，这里是2
+		n2 = 100  // 每行增1,这是100
+		n3 = iota // 每行增1,这里是2
 	)
 	fmt.Println(n1, n2, n3)
 	const ( // 遇到const置0
@@ -46,16 +46,26 @@ func complexDemo() {
 	fmt.Print("Real Number = ", real(number), ", Image Number = ", imag(number))
 }
 
-func Demo() {
+func wordDemo() {
 	// https://go.dev/ref/spec#Identifiers
-	// words := `if-else，switch-case-fallthrough-default，for-range-break-continue，var-const-type，import-package，go-defer，goto-return，func-interface，struct-map，chan-select`
-	// ids := `any，bool，byte，int-int8-int16-int32-int64，uint-uint8-uint16-uint32-uint64，float32-float64，rune-string，uintptr，comparable，error，complex64-complex128；true-false，iota，nil；max-min，complex-imag-real，cap-len-append-clear，new-make-delete，panic-recover，print-println，close，copy`
-	// fmt.Println("25个保留关键字：", words) // 不能用作常量名或变量名
-	// fmt.Println("预定义标识符：", ids) // 基础数据类型，内置函数
-	var int int = 1    // ok // 不推荐，要避免
-	fmt.Println(int)   // ok
-	var false uint = 1 // ok
-	fmt.Println(false) // ok
+	words := "if-else,switch-case-fallthrough-default,for-range-break-continue,var-const-type," +
+		"import-package,go-defer,goto-return,func-interface,struct-map,chan-select"
+	ids := "any,bool,byte,int-int8-int16-int32-int64,uint-uint8-uint16-uint32-uint64,float32-float64," +
+		"rune-string,uintptr,comparable,error,complex64-complex128；true-false,iota,nil；max-min,complex-imag-real," +
+		"cap-len-append-copy,new-make-delete-clear,panic-recover,print-println,close"
+	fmt.Println("25个保留关键字：", words) // 不能用作常量名或变量名
+	fmt.Println("预定义标识符：", ids)     // 基础数据类型,内置函数
+	var any int = 1
+	fmt.Println(any)  // 不报错,但不推荐,要避免
+	var false int = 1 // 不报错,但不推荐,要避免
+	fmt.Println(false)
 	// complexDemo()
 	// iotaDemo()
+}
+
+func Demo() {
+	wordDemo()
+	datatypeDemo()
+	operatorDemo()
+	builtinDemo()
 }
