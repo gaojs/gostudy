@@ -8,28 +8,33 @@ type Usb interface {
 	Stop()
 }
 
-type Phone struct{}
+type Phone struct {
+	Name string
+}
 
 func (p Phone) Start() {
-	fmt.Println("手机，开始工作")
+	fmt.Println(p.Name, "手机，开始工作")
 }
 
 func (p Phone) Stop() {
-	fmt.Println("手机，停止工作")
+	fmt.Println(p.Name, "手机，停止工作")
 }
 
-type Camera struct{}
+type Camera struct {
+	Name string
+}
 
 func (c Camera) Start() {
-	fmt.Println("相机，开始工作")
+	fmt.Println(c.Name, "相机，开始工作")
 }
 
 func (c Camera) Stop() {
-	fmt.Println("相机，停止工作")
+	fmt.Println(c.Name, "相机，停止工作")
 }
 
 type Computer struct{}
 
+// 函数参数，是一种多态
 func (c *Computer) Working(usb Usb) {
 	usb.Start()
 	usb.Stop()
@@ -37,10 +42,14 @@ func (c *Computer) Working(usb Usb) {
 
 func interfaceUse() {
 	computer := Computer{}
-	phone := Phone{}
-	computer.Working(phone)
-	camara := Camera{}
-	computer.Working(camara)
+	phone1 := Phone{"小米"}
+	phone2 := Phone{"华为"}
+	camara := Camera{"佳能"}
+	// 数组元素，也是一种多态
+	var usbs []Usb = []Usb{phone1, phone2, camara}
+	for _, usb := range usbs {
+		computer.Working(usb)
+	}
 }
 
 type I1 interface {
@@ -102,7 +111,7 @@ func nilDemo() {
 }
 
 func interfaceDemo() {
-	// interfaceUse()
+	interfaceUse()
 	// interfaceExtend()
-	nilDemo()
+	// nilDemo()
 }
