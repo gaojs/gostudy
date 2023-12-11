@@ -1,6 +1,8 @@
 package main
 
-import "main/file"
+import (
+	"main/serialization"
+)
 
 func main() {
 	// println("main()")
@@ -15,5 +17,6 @@ func main() {
 	// mapper.Demo()
 	// structure.Demo()
 	// algorithm.Demo()
-	file.Demo()
+	// file.Demo()
+	serialization.Demo()
 }
