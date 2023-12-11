@@ -1,15 +1,13 @@
 package main
 
-import (
-	"main/serialization"
-)
+import "main/identifier"
 
 func main() {
 	// println("main()")
 	// datatype.Demo()
 	// operator.Demo()
 	// controller.Demo()
-	// identifier.Demo()
+	identifier.Demo()
 	// leetcode.Demo()
 	// function.Demo()
 	// builtin.Demo()
@@ -18,5 +16,5 @@ func main() {
 	// structure.Demo()
 	// algorithm.Demo()
 	// file.Demo()
-	serialization.Demo()
+	// serialization.Demo()
 }
