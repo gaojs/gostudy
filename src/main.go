@@ -1,18 +1,19 @@
 package main
 
-import "main/structure"
+import "main/file"
 
 func main() {
+	// println("main()")
 	// datatype.Demo()
 	// operator.Demo()
 	// controller.Demo()
 	// identifier.Demo()
 	// leetcode.Demo()
-	println("main()")
 	// function.Demo()
 	// builtin.Demo()
 	// array.Demo()
 	// mapper.Demo()
-	structure.Demo()
+	// structure.Demo()
 	// algorithm.Demo()
+	file.Demo()
 }
