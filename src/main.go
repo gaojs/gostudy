@@ -1,9 +1,7 @@
 package main
 
-import "main/goroutine"
-
 func main() {
-	// println("main()")
+	println("main()")
 	// identifier.Demo()
 	// controller.Demo()
 	// leetcode.Demo()
@@ -15,5 +13,5 @@ func main() {
 	// file.Demo()
 	// serialization.Demo()
 	// reflection.Demo()
-	goroutine.Demo()
+	// goroutine.Demo()
 }

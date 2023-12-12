@@ -4,6 +4,7 @@ package goroutine
 import (
 	"fmt"
 	"sync"
+	"sync/atomic"
 )
 
 var x int
@@ -56,7 +57,7 @@ func onceDemo() {
 }
 
 func atomDemo() {
-
+	atomic.AddInt32()
 }
 
 func lockDemo() {

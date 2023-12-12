@@ -64,8 +64,8 @@ func wordDemo() {
 }
 
 func Demo() {
-	wordDemo()
-	datatypeDemo()
-	operatorDemo()
-	builtinDemo()
+	// wordDemo()
+	// datatypeDemo()
+	// operatorDemo()
+	// builtinDemo()
 }

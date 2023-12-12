@@ -6,7 +6,7 @@ import (
 	"unsafe"
 )
 
-func datatypeDemo() {
+func sizeDemo() {
 	var p uintptr // 8字节
 	var u uint    // 8字节
 	var i int     // 8字节
@@ -26,5 +26,24 @@ func datatypeDemo() {
 	fmt.Println("Sizeof(string)=", unsafe.Sizeof(s))
 	fmt.Println("Sizeof(any)=", unsafe.Sizeof(a))
 	var n int = 11
-	fmt.Printf("2进制：%b，8进制：%o, 10进制：%d，16进制：%x\n", n, n, n, n)
+	fmt.Printf("2进制:%b,8进制:%o, 10进制:%d,16进制:%x\n", n, n, n, n)
+}
+
+func typeDemo() {
+	type NewInt = int // 别名
+	type MyInt int    // 自定义
+	var i int = 1
+	var ni NewInt
+	var mi MyInt
+	// ni = i // ok
+	ni = NewInt(i)
+	// mi = i // nok
+	mi = MyInt(i)
+	fmt.Printf("ni type=%T, %v\n", ni, ni)
+	fmt.Printf("mi type=%T, %v\n", mi, mi)
+}
+
+func datatypeDemo() {
+	// sizeDemo()
+	typeDemo()
 }
