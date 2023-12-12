@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"net"
 )
@@ -9,15 +8,15 @@ import (
 func process(conn net.Conn) {
 	defer conn.Close() // 延时关闭
 	for {
-		reader := bufio.NewReader(conn)
 		var buf [1024]byte
-		n, err := reader.Read(buf[:])
+		n, err := conn.Read(buf[:])
 		if err != nil {
 			fmt.Println("读取(Read)失败!err=", err)
 			break
 		}
 		fmt.Printf("收到数据(len=%d):\n%s\n", n, string(buf[:n]))
-		// conn.Write([]byte("received!"))
+		sent, err := conn.Write([]byte("received!"))
+		fmt.Printf("发送数据(sent=%d)\n", sent)
 	}
 }
 
