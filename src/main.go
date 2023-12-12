@@ -1,5 +1,7 @@
 package main
 
+import "main/goroutine"
+
 func main() {
 	// println("main()")
 	// identifier.Demo()
@@ -13,5 +15,5 @@ func main() {
 	// file.Demo()
 	// serialization.Demo()
 	// reflection.Demo()
-	// network.Demo()
+	goroutine.Demo()
 }
