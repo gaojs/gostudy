@@ -1,7 +1,5 @@
 package main
 
-import "main/reflection"
-
 func main() {
 	// println("main()")
 	// identifier.Demo()
@@ -14,5 +12,6 @@ func main() {
 	// algorithm.Demo()
 	// file.Demo()
 	// serialization.Demo()
-	reflection.Demo()
+	// reflection.Demo()
+	// network.Demo()
 }
