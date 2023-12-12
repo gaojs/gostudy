@@ -1,12 +1,10 @@
 package main
 
-import (
-	"main/identifier"
-)
+import "main/reflection"
 
 func main() {
 	// println("main()")
-	identifier.Demo()
+	// identifier.Demo()
 	// controller.Demo()
 	// leetcode.Demo()
 	// function.Demo()
@@ -16,4 +14,5 @@ func main() {
 	// algorithm.Demo()
 	// file.Demo()
 	// serialization.Demo()
+	reflection.Demo()
 }
