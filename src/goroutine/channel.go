@@ -1,3 +1,4 @@
+// 通道Chan
 package goroutine
 
 import (
@@ -53,7 +54,7 @@ func worker(id int, jobs, rets chan int) {
 	}
 }
 
-func chanDemo3() {
+func chanWorker() {
 	jobs := make(chan int, 10)
 	rets := make(chan int, 10)
 	for i := 0; i < cap(jobs); i++ {
@@ -68,8 +69,24 @@ func chanDemo3() {
 	}
 }
 
+func chanSelect() {
+
+	ch := make(chan int, 10)
+	for i := 0; i < 10; i++ {
+		select { // 多路复用，随机选择
+		case x := <-ch:
+			fmt.Println("取出:", x)
+		case ch <- i:
+			// fmt.Println("放入:", i)
+		default:
+			fmt.Println("None")
+		}
+	}
+}
+
 func chanDemo() {
 	// chanDemo1()
 	// chanDemo2()
-	chanDemo3()
+	// chanWorker()
+	chanSelect()
 }

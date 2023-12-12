@@ -1,3 +1,4 @@
+// GO协程
 package goroutine
 
 import (
@@ -22,5 +23,6 @@ func goDemo() {
 }
 func Demo() {
 	// goDemo()
-	chanDemo()
+	// chanDemo()
+	lockDemo()
 }
