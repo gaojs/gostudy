@@ -8,8 +8,8 @@ func sayHello(c *gin.Context) {
 
 func Demo() {
 	println("gin()")
-	// http://localhost:8080/hello
+	// http://localhost/hello
 	r := gin.Default() // 返回GIN引擎
 	r.GET("/hello", sayHello)
-	r.Run()
+	r.Run(":80") // 默认8080
 }
