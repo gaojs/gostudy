@@ -1,5 +1,7 @@
 package main
 
+import "main/frame"
+
 func main() {
 	println("main()")
 	// identifier.Demo()
@@ -14,4 +16,5 @@ func main() {
 	// serialization.Demo()
 	// reflection.Demo()
 	// goroutine.Demo()
+	frame.Demo()
 }
