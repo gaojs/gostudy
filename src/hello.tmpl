@@ -4,6 +4,7 @@
         <title>Hello</title>
     </head>
     <body>
+        <p>这里演示模板标识符替换：</p>
         {{/*这里是注释，不显示*/}}
         <p>姓名：{{ .user.Name }}</p>
         {{/*-可以移除左右空格-*/}}
@@ -13,12 +14,27 @@
         <hr>
         {{/*定义变量*/}}
         {{ $tall := .tall }}
-        <hr>
-        {{/*条件判断*/}}
+        <p>这里演示条件判断：</p>
         {{if ge $tall 200 }} 巨人
         {{ else if lt $tall 100  }} 侏儒
         {{ else }} 身高正常
         {{ end }}
-
+        <hr>
+        <p>这里演示range遍历：</p>
+        {{ range $id,$hobby := .hobby }}
+        <p> {{ $id }} - {{ $hobby }} </p>
+        {{ else }}
+        <p> 空空如也 </p>
+        {{ end }}
+        <hr>
+        <p>这里演示with范围：</p>
+        {{ with .user }}
+        <p>姓名：{{ .Name }}</p>
+        <p>性别：{{- .Gender -}}</p>
+        <p>年龄：{{ .Age }}</p>
+        {{ end }}
+        <hr>
+        <p>这里演示index下标：</p>
+        {{ index .hobby 2 }}
     </body>
 </html>

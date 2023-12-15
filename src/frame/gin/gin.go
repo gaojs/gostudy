@@ -49,9 +49,11 @@ func helloTmpl(w http.ResponseWriter, r *http.Request) {
 	// 3、渲染模板
 	// err = t.Execute(w, "template")
 	usr := User{"Hill", " 男 ", 18}
+	hbs := []string{"足球", "篮球", "乒乓球"}
 	mp := map[string]any{
-		"user": usr,
-		"tall": 177,
+		"user":  usr,
+		"tall":  177,
+		"hobby": hbs,
 	}
 	err = t.Execute(w, mp)
 	if err != nil {
