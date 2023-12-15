@@ -4,6 +4,21 @@
         <title>Hello</title>
     </head>
     <body>
-        <p>Hello {{.}}</p>
+        {{/*这里是注释，不显示*/}}
+        <p>姓名：{{ .user.Name }}</p>
+        {{/*-可以移除左右空格-*/}}
+        <p>性别：{{- .user.Gender -}}</p>
+        <p>年龄：{{ .user.Age }}</p>
+        <p>身高：{{ .tall }}</p>
+        <hr>
+        {{/*定义变量*/}}
+        {{ $tall := .tall }}
+        <hr>
+        {{/*条件判断*/}}
+        {{if ge $tall 200 }} 巨人
+        {{ else if lt $tall 100  }} 侏儒
+        {{ else }} 身高正常
+        {{ end }}
+
     </body>
 </html>

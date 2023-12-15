@@ -32,6 +32,12 @@ func restDemo() {
 	r.Run("localhost:80") // 默认是8080
 }
 
+type User struct {
+	Name   string
+	Gender string
+	Age    int
+}
+
 func helloTmpl(w http.ResponseWriter, r *http.Request) {
 	// 1、定义模板(hello.tmpl)
 	// 2、解析模板
@@ -41,7 +47,13 @@ func helloTmpl(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// 3、渲染模板
-	err = t.Execute(w, "template")
+	// err = t.Execute(w, "template")
+	usr := User{"Hill", " 男 ", 18}
+	mp := map[string]any{
+		"user": usr,
+		"tall": 177,
+	}
+	err = t.Execute(w, mp)
 	if err != nil {
 		fmt.Println("Execute failed, err=", err)
 		return
