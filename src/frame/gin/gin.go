@@ -68,9 +68,43 @@ func helloTmpl(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func indexTmpl(w http.ResponseWriter, r *http.Request) {
+	// 1、定义模板(.tmpl)
+	// 2、解析模板
+	t, err := template.ParseFiles("index.tmpl")
+	if err != nil {
+		fmt.Println("ParseFiles failed, err=", err)
+		return
+	}
+	// 3、渲染模板
+	err = t.Execute(w, "index")
+	if err != nil {
+		fmt.Println("Execute failed, err=", err)
+		return
+	}
+}
+
+func homeTmpl(w http.ResponseWriter, r *http.Request) {
+	// 1、定义模板(.tmpl)
+	// 2、解析模板
+	t, err := template.ParseFiles("home.tmpl")
+	if err != nil {
+		fmt.Println("ParseFiles failed, err=", err)
+		return
+	}
+	// 3、渲染模板
+	err = t.Execute(w, "home")
+	if err != nil {
+		fmt.Println("Execute failed, err=", err)
+		return
+	}
+}
+
 func httpDemo() {
 	// http://localhost/hello
 	http.HandleFunc("/hello", helloTmpl)
+	http.HandleFunc("/index", indexTmpl)
+	http.HandleFunc("/home", homeTmpl)
 	err := http.ListenAndServe("localhost:80", nil)
 	if err != nil {
 		fmt.Println("http server start failed, err=", err)
