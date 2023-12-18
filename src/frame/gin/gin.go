@@ -40,8 +40,14 @@ type User struct {
 
 func helloTmpl(w http.ResponseWriter, r *http.Request) {
 	// 1、定义模板(hello.tmpl)
+	kua := func(name string) (string, error) {
+		return name + "真帅气", nil
+	}
 	// 2、解析模板
-	t, err := template.ParseFiles("hello.tmpl")
+	t := template.New("hello.tmpl")
+	// 添加自定义函数，模板中可使用
+	t.Funcs(template.FuncMap{"kua": kua})
+	t, err := t.ParseFiles("hello.tmpl", "ul.tmpl")
 	if err != nil {
 		fmt.Println("ParseFiles failed, err=", err)
 		return
