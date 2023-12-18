@@ -100,11 +100,29 @@ func homeTmpl(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func customTmpl(w http.ResponseWriter, r *http.Request) {
+	// 1、定义模板(.tmpl)
+	// 2、解析模板
+	t := template.New("custom.tmpl").Delims("{[", "]}")
+	t, err := t.ParseFiles("template/custom.tmpl")
+	if err != nil {
+		fmt.Println("ParseFiles failed, err=", err)
+		return
+	}
+	// 3、渲染模板
+	err = t.Execute(w, "custom")
+	if err != nil {
+		fmt.Println("Execute failed, err=", err)
+		return
+	}
+}
+
 func httpDemo() {
 	// http://localhost/hello
 	http.HandleFunc("/hello", helloTmpl)
 	http.HandleFunc("/index", indexTmpl)
 	http.HandleFunc("/home", homeTmpl)
+	http.HandleFunc("/custom", customTmpl)
 	err := http.ListenAndServe("localhost:80", nil)
 	if err != nil {
 		fmt.Println("http server start failed, err=", err)
