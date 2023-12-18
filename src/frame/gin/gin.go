@@ -3,7 +3,7 @@ package gin
 import (
 	"fmt"
 	"net/http"
-	"text/template"
+	"html/template"
 
 	"github.com/gin-gonic/gin"
 )
@@ -110,7 +110,8 @@ func customTmpl(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// 3、渲染模板
-	err = t.Execute(w, "custom")
+	xss := "<script>alert('xss');</script>"
+	err = t.Execute(w, xss)
 	if err != nil {
 		fmt.Println("Execute failed, err=", err)
 		return
