@@ -71,7 +71,7 @@ func helloTmpl(w http.ResponseWriter, r *http.Request) {
 func indexTmpl(w http.ResponseWriter, r *http.Request) {
 	// 1、定义模板(.tmpl)
 	// 2、解析模板
-	t, err := template.ParseFiles("index.tmpl")
+	t, err := template.ParseFiles("template/base.tmpl", "template/index.tmpl")
 	if err != nil {
 		fmt.Println("ParseFiles failed, err=", err)
 		return
@@ -87,7 +87,7 @@ func indexTmpl(w http.ResponseWriter, r *http.Request) {
 func homeTmpl(w http.ResponseWriter, r *http.Request) {
 	// 1、定义模板(.tmpl)
 	// 2、解析模板
-	t, err := template.ParseFiles("home.tmpl")
+	t, err := template.ParseFiles("template/base.tmpl", "template/home.tmpl")
 	if err != nil {
 		fmt.Println("ParseFiles failed, err=", err)
 		return

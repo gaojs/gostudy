@@ -1,0 +1,8 @@
+{{/*这里演示模板的继承*/}}
+{{ template "base.tmpl" .}}
+{{ define "title" }}
+主页
+{{ end }}
+{{ define "body" }}
+这是主页的内容！{{ . }}
+{{ end }}
