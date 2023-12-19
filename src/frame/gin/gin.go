@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -150,6 +151,17 @@ func structHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, data)
 }
 
+func queryHandler(c *gin.Context) {
+	// name := c.Query("name")
+	name := c.DefaultQuery("name", "default")
+	age, ok := c.GetQuery("age")
+	if !ok { // 取不到，则设置
+		age = strconv.Itoa(20)
+	}
+	data := gin.H{"name": name, "age": age}
+	c.JSON(http.StatusOK, data)
+}
+
 func ginHtml() {
 	// 默认路由*Engine
 	r := gin.Default()
@@ -165,9 +177,11 @@ func ginHtml() {
 	// r.LoadHTMLFiles("template/hello.tmpl")
 	r.LoadHTMLGlob("template/hello.*")
 	// http://localhost/hello
-	r.GET("/hello", sayHello)
-	r.GET("/json", jsonHandler)
-	r.GET("/struct", structHandler)
+	// r.GET("/hello", sayHello)
+	// r.GET("/json", jsonHandler)
+	// r.GET("/struct", structHandler)
+	// http://localhost/query?name=gao&age=18
+	r.GET("/query", queryHandler)
 	r.Run("localhost:80") // 默认是8080
 }
 
