@@ -55,6 +55,26 @@ func postHtml() {
 	r.POST("/upload", uploadPost)
 	r.Run("localhost:80") // 默认是8080
 }
+
+func redirectBaidu(c *gin.Context) {
+	// 直接重定向，URL地址栏都会跟着改变
+	c.Redirect(http.StatusMovedPermanently, "http://www.baidu.com")
+}
+
+func redirectHello(c *gin.Context) {
+	c.Request.URL.Path = "/baidu"
+	gin.Default().HandleContext(c)
+}
+
+func redirectDemo() {
+	r := gin.Default()
+	// http://localhost/hello
+	r.GET("/baidu", redirectBaidu)
+	r.GET("/hello", redirectHello)
+	r.Run("localhost:80")
+}
+
 func PostDemo() {
-	postHtml()
+	// postHtml()
+	redirectDemo()
 }
