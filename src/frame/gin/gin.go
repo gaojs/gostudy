@@ -21,7 +21,7 @@ func getHello(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"method": "GET"})
 }
 
-func restDemo() {
+func ginRest() {
 	r := gin.Default() // 返回GIN引擎Engine
 	// 增删改查
 	r.POST("/hello", postHello)  // 增
@@ -132,13 +132,28 @@ func httpDemo() {
 }
 
 func sayHello(c *gin.Context) {
-	// c.JSON(http.StatusOK, gin.H{"title": "Hill"})
 	c.HTML(http.StatusOK, "hello.tmpl",
 		gin.H{"title": "<a href='http://baidu.com'>Baidu</a>"})
 }
 
-func ginDemo() {
+func jsonHandler(c *gin.Context) {
+	data := gin.H{"name": "Hill", "age": 18}
+	c.JSON(http.StatusOK, data)
+}
+
+func structHandler(c *gin.Context) {
+	type Person struct {
+		Name string `json:"name"`
+		Age  int    `json:"age"`
+	}
+	data := Person{Name: "Hill", Age: 18}
+	c.JSON(http.StatusOK, data)
+}
+
+func ginHtml() {
+	// 默认路由*Engine
 	r := gin.Default()
+	// 添加静态文件的解析
 	r.Static("/static", "template/static")
 	// 添加自定义函数（safe）
 	r.SetFuncMap(template.FuncMap{
@@ -146,16 +161,19 @@ func ginDemo() {
 			return template.HTML(str)
 		},
 	})
+	// 添加模板文件的解析
 	// r.LoadHTMLFiles("template/hello.tmpl")
 	r.LoadHTMLGlob("template/hello.*")
 	// http://localhost/hello
 	r.GET("/hello", sayHello)
+	r.GET("/json", jsonHandler)
+	r.GET("/struct", structHandler)
 	r.Run("localhost:80") // 默认是8080
 }
 
 func Demo() {
 	println("gin()")
 	// httpDemo()
-	// restDemo()
-	ginDemo()
+	// ginRest()
+	ginHtml()
 }
