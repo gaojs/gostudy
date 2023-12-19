@@ -1,6 +1,7 @@
 package gin
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -62,15 +63,39 @@ func redirectBaidu(c *gin.Context) {
 }
 
 func redirectHello(c *gin.Context) {
-	c.Request.URL.Path = "/baidu"
-	gin.Default().HandleContext(c)
+	// c.Request.URL.Path = "/baidu"
+	// gin.Default().HandleContext(c)
+}
+
+func hello(c *gin.Context) {
+	c.JSON(http.StatusOK, "hello")
+}
+
+func m1(c *gin.Context) {
+	fmt.Println("m1 in")
+	c.Set("usr", "hill")
+	c.Next() // 调用后续的处理函数
+	// c.Abort() // 不执行后续处理函数
+	fmt.Println("m1 out")
+}
+
+func m2(c *gin.Context) {
+	fmt.Println("m2 in")
+	u, err := c.Get("usr")
+	fmt.Println(u, err)
+	// c.Next() // 调用后续的处理函数
+	c.Abort() // 不执行后续处理函数
+	fmt.Println("m2 out")
 }
 
 func redirectDemo() {
-	r := gin.Default()
+	// r.Use(Logger(), Recovery())
+	r := gin.Default() // gin.New()
 	// http://localhost/hello
-	r.GET("/baidu", redirectBaidu)
-	r.GET("/hello", redirectHello)
+	// r.GET("/baidu", redirectBaidu)
+	// r.GET("/hello", redirectHello)
+	r.Use(m1, m2)
+	r.GET("/both", hello)
 	r.Run("localhost:80")
 }
 
