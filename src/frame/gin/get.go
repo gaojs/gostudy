@@ -162,6 +162,13 @@ func queryHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, data)
 }
 
+func pathHandler(c *gin.Context) {
+	name := c.Param("name")
+	age := c.Param("age")
+	data := gin.H{"name": name, "age": age}
+	c.JSON(http.StatusOK, data)
+}
+
 func ginHtml() {
 	// 默认路由*Engine
 	r := gin.Default()
@@ -181,7 +188,9 @@ func ginHtml() {
 	// r.GET("/json", jsonHandler)
 	// r.GET("/struct", structHandler)
 	// http://localhost/query?name=gao&age=18
-	r.GET("/query", queryHandler)
+	// r.GET("/query", queryHandler)
+	// http://localhost/hill/18
+	r.GET("/:name/:age", pathHandler)
 	r.Run("localhost:80") // 默认是8080
 }
 
