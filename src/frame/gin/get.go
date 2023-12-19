@@ -185,7 +185,7 @@ func ginHtml() {
 	r.Run("localhost:80") // 默认是8080
 }
 
-func Demo() {
+func GetDemo() {
 	println("gin()")
 	// httpDemo()
 	// ginRest()

@@ -35,5 +35,6 @@ func httpDemo() {
 func Demo() {
 	println("frame()")
 	// httpDemo()
-	gin.Demo()
+	// gin.GetDemo()
+	gin.PostDemo()
 }
