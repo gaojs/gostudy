@@ -2,8 +2,8 @@ package gin
 
 import (
 	"fmt"
-	"net/http"
 	"html/template"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -131,7 +131,31 @@ func httpDemo() {
 	}
 }
 
+func sayHello(c *gin.Context) {
+	// c.JSON(http.StatusOK, gin.H{"title": "Hill"})
+	c.HTML(http.StatusOK, "hello.tmpl",
+		gin.H{"title": "<a href='http://baidu.com'>Baidu</a>"})
+}
+
+func ginDemo() {
+	r := gin.Default()
+	r.Static("/static", "template/static")
+	// 添加自定义函数（safe）
+	r.SetFuncMap(template.FuncMap{
+		"safe": func(str string) template.HTML {
+			return template.HTML(str)
+		},
+	})
+	// r.LoadHTMLFiles("template/hello.tmpl")
+	r.LoadHTMLGlob("template/hello.*")
+	// http://localhost/hello
+	r.GET("/hello", sayHello)
+	r.Run("localhost:80") // 默认是8080
+}
+
 func Demo() {
 	println("gin()")
-	httpDemo()
+	// httpDemo()
+	// restDemo()
+	ginDemo()
 }
