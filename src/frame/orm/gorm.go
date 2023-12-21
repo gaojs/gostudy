@@ -1,4 +1,4 @@
-package gorm
+package orm
 
 import (
 	"fmt"
@@ -6,17 +6,6 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
-
-type Product struct {
-	gorm.Model
-	Name  string
-	Price int
-}
-
-// 通过函数，指定表名
-func (Product) TableName() string {
-	return "product"
-}
 
 func productDemo(db *gorm.DB) {
 	db.AutoMigrate(&Product{}) // 建立OR关系
@@ -30,12 +19,6 @@ func productDemo(db *gorm.DB) {
 	fmt.Println("p3=", p2)
 	db.Delete(&p2) // 删除
 	fmt.Println("p4=", p2)
-}
-
-type User struct {
-	ID   int    // gorm.Model
-	Name string `gorm:"default:'def'"`
-	Age  int    // `gorm:"default:20"`
 }
 
 func createDemo(db *gorm.DB) {
@@ -137,7 +120,7 @@ func updateDemo(db *gorm.DB) {
 }
 
 func deleteDemo(db *gorm.DB) {
-	var u = User{ID: 1, Name: "hill", Age: 80}
+	var u = User{Id: 1, Name: "hill", Age: 80}
 	db.Debug().Delete(&u) // 删除时，主键不能空
 	// DELETE FROM `users` WHERE `users`.`id` = 1
 }
@@ -151,7 +134,7 @@ func userDemo(db *gorm.DB) {
 	deleteDemo(db) // 删除记录
 }
 
-func Demo() {
+func GormDemo() {
 	println("gorm()")
 	// 建立数据库链接
 	s := "root:123@(localhost:3306)/db1?charset=utf8mb4&parseTime=True&loc=Local"
