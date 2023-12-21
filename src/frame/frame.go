@@ -3,7 +3,7 @@ package frame
 import (
 	"fmt"
 	"io/ioutil"
-	"main/frame/gin"
+	"main/frame/gorm"
 	"net/http"
 )
 
@@ -36,5 +36,6 @@ func Demo() {
 	println("frame()")
 	// httpDemo()
 	// gin.GetDemo()
-	gin.PostDemo()
+	// gin.PostDemo()
+	gorm.Demo()
 }
