@@ -7,11 +7,13 @@ import (
 )
 
 func sizeDemo() {
+	var ul uint64
 	var p uintptr // 8字节
 	var u uint    // 8字节
 	var i int     // 8字节
 	var r rune    // 4字节
 	var b bool    // 1字节
+	fmt.Println("Sizeof(uint64)=", unsafe.Sizeof(ul))
 	fmt.Println("Sizeof(uintptr)=", unsafe.Sizeof(p))
 	fmt.Println("Sizeof(uint)=", unsafe.Sizeof(u))
 	fmt.Println("Sizeof(int)=", unsafe.Sizeof(i))
@@ -44,6 +46,6 @@ func typeDemo() {
 }
 
 func datatypeDemo() {
-	// sizeDemo()
-	typeDemo()
+	sizeDemo()
+	// typeDemo()
 }
