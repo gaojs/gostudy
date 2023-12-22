@@ -3,15 +3,15 @@ package orm
 import (
 	"fmt"
 
+	"xorm.io/core"
 	"xorm.io/xorm"
 )
 
 func insertDemo(engine *xorm.Engine) {
-	engine.ShowSQL(true)
-	u := User{Name: "hill", Age: 20}
+	u := UserInfo{Name: "hill", Male: true, Addr: Address{"ZJ", "杭州"}}
+	fmt.Println("insertDemo:", u)
 	n, err := engine.Insert(&u)
 	fmt.Println("Insert:", n, err, u)
-	// [SQL] INSERT INTO `user` (`id`,`name`,`age`) VALUES (?,?,?) [0 hill 20]
 }
 
 func qureyDemo(engine *xorm.Engine) {
@@ -23,8 +23,7 @@ func qureyDemo(engine *xorm.Engine) {
 		}
 	}
 	if false { // 查询
-		engine.ShowSQL(true)
-		u := User{Id: 2}
+		u := UserInfo{ID: 2}
 		// has, err := engine.Get(&u)
 		// fmt.Println("Get", has, err, u)
 		// [SQL] SELECT `id`, `name`, `age` FROM `user` WHERE `id`=? LIMIT 1 [2]
@@ -32,24 +31,29 @@ func qureyDemo(engine *xorm.Engine) {
 		fmt.Println("Exist", has, err, u)
 		// [SQL] SELECT `id`, `name`, `age` FROM `user` WHERE `id`=? LIMIT 1 [2]
 	}
-	if false { // 查询
+	if false { // 查询Query
 		r, err := engine.Query("select * from user")
-		fmt.Println("Query:", r, err)
+		fmt.Println("Query:", r, err) // 返回map[string][]byte
 		rs, err := engine.QueryString("select * from user")
-		fmt.Println("QueryString:", rs, err)
+		fmt.Println("QueryString:", rs, err) // 返回map[string]string
 		ri, err := engine.QueryInterface("select * from user")
-		fmt.Println("QueryInterface:", ri, err)
+		fmt.Println("QueryInterface:", ri, err) // 返回map[string]any
 	}
 	if false { // 更新
-		u := User{Name: "new2"}
+		u := UserInfo{Name: "new2"}
 		n, err := engine.Update(&u)
 		fmt.Println("Update:", n, err)
 	}
-	if true { // 删除
-		u := User{Name: "hill"}
+	if false { // 删除
+		u := UserInfo{Name: "hill"}
 		n, err := engine.Delete(&u)
 		fmt.Println("Delete:", n, err)
 		// [SQL] DELETE FROM `user` WHERE `name`=? [hill]
+	}
+	if true { // 查询
+		u := UserInfo{}
+		n, err := engine.ID(1).Get(&u)
+		fmt.Println("Get:", n, err, u)
 	}
 }
 
@@ -63,8 +67,10 @@ func XormDemo() {
 		panic("连接数据库失败！")
 	}
 	defer engine.Close()
+	engine.ShowSQL(true) // 显示SQL
+	engine.SetMapper(core.GonicMapper{})
 	fmt.Println("engine=", engine.DriverName())
-	err = engine.Sync2(new(User)) // 同步表结构
+	err = engine.Sync2(new(UserInfo)) // 同步表结构
 	fmt.Println("Sync, err=", err)
 	insertDemo(engine)
 	qureyDemo(engine)

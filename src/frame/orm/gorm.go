@@ -120,7 +120,7 @@ func updateDemo(db *gorm.DB) {
 }
 
 func deleteDemo(db *gorm.DB) {
-	var u = User{Id: 1, Name: "hill", Age: 80}
+	var u = User{Name: "hill", Age: 80}
 	db.Debug().Delete(&u) // 删除时，主键不能空
 	// DELETE FROM `users` WHERE `users`.`id` = 1
 }

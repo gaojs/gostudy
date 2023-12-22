@@ -37,5 +37,6 @@ require (
 	gorm.io/driver/mysql v1.5.2 // indirect
 	gorm.io/gorm v1.25.5 // indirect
 	xorm.io/builder v0.3.11-0.20220531020008-1bd24a7dc978 // indirect
+	xorm.io/core v0.7.3 // indirect
 	xorm.io/xorm v1.3.4 // indirect
 )
