@@ -35,12 +35,67 @@ type UserDetail struct {
 }
 
 // 完全无关的俩结构
+type Dog struct { // 舔狗
+	ID   int `gorm:"primaryKey"`
+	Name string
+}
+
+type Girl struct { // 女神
+	ID   int `gorm:"primaryKey"`
+	Name string
+}
+
+// 一对一的关系
+// BelongsTo属于
 type Dog0 struct { // 舔狗
 	ID   int `gorm:"primaryKey"`
 	Name string
+	// 靠该字段，关联女神
+	GirlID int `gorm:"column:girl_id"` // 所属女神的ID
+	// [error] define a valid foreign key for relations
+	// 有GirlID后，Girl才不会报上述的错误
+	Girl Girl0 // 所属女神
 }
 
 type Girl0 struct { // 女神
 	ID   int `gorm:"primaryKey"`
 	Name string
+}
+
+// 一对一的关系
+type Dog1 struct { // 舔狗
+	ID   int `gorm:"primaryKey"`
+	Name string
+	// 靠该字段，关联女神
+	Girl1ID int `gorm:"column:girl_id"` // 所属女神的ID
+}
+
+// HasOne拥有
+type Girl1 struct { // 女神
+	ID   int `gorm:"primaryKey"`
+	Name string
+	// invalid recursive type Dog1
+	Dog Dog1 // 拥有的舔狗，但不依赖
+}
+
+// 一对多的关系
+type DogInfo struct { // 舔狗的信息
+	ID     int `gorm:"primaryKey"`
+	Money  int
+	Dog2ID int `gorm:"column:dog_id"` // 所属舔狗的ID
+}
+
+type Dog2 struct { // 舔狗
+	ID   int `gorm:"primaryKey"`
+	Name string
+	Info DogInfo
+	// 靠该字段，关联女神
+	Girl2ID int `gorm:"column:girl_id"` // 所属女神的ID
+}
+
+// HasMany拥有
+type Girl2 struct { // 女神
+	ID   int `gorm:"primaryKey"`
+	Name string
+	Dogs []Dog2 // 拥有的舔狗，但不依赖
 }

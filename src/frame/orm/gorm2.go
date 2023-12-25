@@ -61,9 +61,77 @@ func recordDemo(db *gorm.DB) {
 	fmt.Println("Delete, ret.RowsAffected=", ret.RowsAffected)
 }
 
-func belongDemo(db *gorm.DB) {
-	err := db.AutoMigrate(&Dog0{}, &Girl0{})
+func one2one(db *gorm.DB) {
+	// err := db.AutoMigrate(&Dog0{}, &Girl0{})
+	// fmt.Println("AutoMigrate, err=", err)
+	if true { // BelongsTo属于1对1关系的演示
+		// 创建舔狗表的时候，会自动创建女神表
+		err := db.AutoMigrate(&Dog0{})
+		fmt.Println("AutoMigrate, err=", err)
+		// 舔狗属于女神，它有女神ID和女神结构体
+		d := Dog0{Name: "舔狗", Girl: Girl0{Name: "女神"}}
+		db.Debug().Create(&d)
+		// INSERT INTO `girl0` (`name`) VALUES ('女神') ON DUPLICATE KEY UPDATE `id`=`id` RETURNING `id`
+		// INSERT INTO `dog0` (`name`,`girl0_id`) VALUES ('舔狗',2) RETURNING `id`
+		fmt.Println("BelongsTo, dog=", d)
+		d0 := Dog0{}
+		db.Debug().Preload("Girl").First(&d0)
+		// SELECT * FROM `girl0` WHERE `girl0`.`id` = 1
+		// SELECT * FROM `dog0` ORDER BY `dog0`.`id` LIMIT 1
+		fmt.Println("Preload, dog=", d0)
+		err = db.Debug().Model(&d0).Association("Girl").Delete(&d0.Girl)
+		// UPDATE `dog0` SET `girl`=NULL WHERE `dog0`.`id` = 1 AND `dog0`.`girl` = 1
+		fmt.Println("Association, err=", err, d0)
+	}
+	if true { // HasOne拥有1对1关系的演示
+		// 各自创建舔狗表和女神表
+		err := db.AutoMigrate(&Girl1{}, &Dog1{})
+		fmt.Println("AutoMigrate, err=", err)
+		// 女神拥有舔狗，舔狗也有女神ID
+		// g := Girl1{Name: "女神"} // 狗的字段全空
+		g := Girl1{Name: "女神", Dog: Dog1{Name: "舔狗"}}
+		db.Debug().Create(&g)
+		// INSERT INTO `dog1` (`name`,`girl1_id`) VALUES ('舔狗',1) ON DUPLICATE KEY UPDATE `girl1_id`=VALUES(`girl1_id`) RETURNING `id`
+		// INSERT INTO `girl1` (`name`) VALUES ('女神') RETURNING `id`
+		fmt.Println("HasOne, girl=", g)
+		g1 := Girl1{}
+		db.Debug().Preload("Dog").First(&g1)
+		// SELECT * FROM `dog1` WHERE `dog1`.`girl1_id` = 1
+		// SELECT * FROM `girl1` ORDER BY `girl1`.`id` LIMIT 1
+		fmt.Println("Preload, girl=", g1)
+		// err = db.Debug().Model(&g1).Association("Dog1").Delete(&g1.Dog1)
+		// UPDATE `dog0` SET `girl`=NULL WHERE `dog0`.`id` = 1 AND `dog0`.`girl` = 1
+		err = db.Debug().Model(&g1).Association("Dog").Clear()
+		// UPDATE `dog1` SET `girl`=NULL WHERE `dog1`.`girl` = 1
+		fmt.Println("Association, err=", err, g1)
+	}
+}
+
+func one2many(db *gorm.DB) {
+	// 各自创建舔狗表和女神表
+	db.Migrator().DropTable(&Girl2{}, &Dog2{}, &DogInfo{})
+	err := db.AutoMigrate(&Girl2{}, &Dog2{}, &DogInfo{})
 	fmt.Println("AutoMigrate, err=", err)
+	g := Girl2{Name: "女神", Dogs: []Dog2{
+		{Name: "舔狗1", Info: DogInfo{Money: 10000}},
+		{Name: "舔狗2", Info: DogInfo{Money: 100}}}}
+	db.Debug().Create(&g)
+	fmt.Println("HasMany, girl=", g)
+	g2 := make([]Girl2, 0)
+	db.Debug().Preload("Dogs.Info", "money < 1000").Preload("Dogs", "name=?", "舔狗1").Find(&g2)
+	// SELECT * FROM `dog_info` WHERE `dog_info`.`dog_id` = 1 AND money < 1000
+	// SELECT * FROM `dog2` WHERE `dog2`.`girl_id` = 1 AND name='舔狗1'
+	// SELECT * FROM `girl2`
+	fmt.Println("Preload, girl=", g2)
+	db.Debug().Preload("Dogs", func(db *gorm.DB) *gorm.DB {
+		return db.Joins("Info").Where("money < 1000")
+	}).Find(&g2)
+	fmt.Println("Joins, girl=", g2)
+	// err = db.Debug().Model(&g2).Association("Dogs").Clear()
+	// fmt.Println("Association, err=", err, g2)
+}
+
+func many2many(db *gorm.DB) {
 }
 
 func GormDemo2() {
@@ -74,5 +142,7 @@ func GormDemo2() {
 	fmt.Printf("sqlDb=%T, %v\n", sqlDb, sqlDb)
 	// tableDemo(db)
 	// recordDemo(db)
-	belongDemo(db)
+	// one2one(db)
+	// one2many(db)
+	many2many(db)
 }
