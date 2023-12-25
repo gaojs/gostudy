@@ -34,13 +34,39 @@ func connDb() (db *gorm.DB) {
 	return db
 }
 
-func multiDemo(db *gorm.DB) {
+func tableDemo(db *gorm.DB) {
+	// 自动迁移创建表
+	// err := db.AutoMigrate(&User{})
+	// fmt.Println("err=", err)
+	// 使用Migrator建表
+	dbm := db.Migrator()
+	if !dbm.HasTable(&User{}) {
+		err := dbm.CreateTable(&User{})
+		fmt.Println("err=", err)
+	} else {
+		err := dbm.DropTable(&User{})
+		fmt.Println("err=", err)
+	}
+}
 
+func recordDemo(db *gorm.DB) {
+	err := db.AutoMigrate(&User{}, &UserDetail{})
+	fmt.Println("AutoMigrate, err=", err)
+	res := db.Create(&User{Name: "gao", Age: 12})
+	fmt.Println("Create, res.RowsAffected=", res.RowsAffected)
+	u := make([]User, 0)
+	db.Where("name like ?", "%a%").Find(&u)
+	fmt.Println("Find", u)
+	ret := db.Unscoped().Delete(u)
+	fmt.Println("Delete, ret.RowsAffected=", ret.RowsAffected)
 }
 
 func GormDemo2() {
 	println("gorm()")
 	db := connDb()
-	fmt.Println("db=", db)
-	multiDemo(db)
+	fmt.Printf("db=%T, %v\n", db, db)
+	sqlDb, _ := db.DB()
+	fmt.Printf("sqlDb=%T, %v\n", sqlDb, sqlDb)
+	// tableDemo(db)
+	recordDemo(db)
 }

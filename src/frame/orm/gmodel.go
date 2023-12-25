@@ -1,6 +1,9 @@
 package orm
 
 import (
+	"database/sql"
+	"time"
+
 	"gorm.io/gorm"
 )
 
@@ -16,7 +19,17 @@ func (Product) TableName() string {
 }
 
 type User struct {
-	gorm.Model        // ID int
-	Name       string `gorm:"default:'def'"`
-	Age        int    `gorm:"default:20"`
+	// ID   int    //gorm.Model
+	UUID uint   `gorm:"primaryKey;comment:唯一标识"` // 设置为主键
+	Name string `gorm:"default:'hi';comment:姓名"` // 设置默认值
+	Age  int    `gorm:"default:20;comment:年龄"`   // 设置默认值
+}
+
+type UserDetail struct {
+	// [error] invalid field found for struct main/frame/orm.TestUser's field User:
+	// define a valid foreign key for relations or implement the Valuer/Scanner interface
+	User   User         `gorm:"embedded"`          // 指明内嵌，以免报错；User的所有字段，都会内嵌进来
+	Email  *string      `gorm:"not null"`          // 设置为非空
+	Birth  *time.Time   `gorm:"column:birthday"`   // 指明列名
+	Active sql.NullTime `gorm:"column:actived_at"` // 设置注释
 }
