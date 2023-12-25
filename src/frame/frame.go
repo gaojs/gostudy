@@ -37,6 +37,7 @@ func Demo() {
 	// httpDemo()
 	// gin.GetDemo()
 	// gin.PostDemo()
+	// orm.XormDemo()
 	// orm.GormDemo()
-	orm.XormDemo()
+	orm.GormDemo2()
 }

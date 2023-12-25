@@ -145,5 +145,5 @@ func GormDemo() {
 	}
 	fmt.Println("db=", db)
 	// productDemo(db)
-	userDemo(db)
+	// userDemo(db)
 }
