@@ -75,7 +75,7 @@ type Girl1 struct { // 女神
 	ID   int `gorm:"primaryKey"`
 	Name string
 	// invalid recursive type Dog1
-	Dog Dog1 // 拥有的舔狗，但不依赖
+	Dog Dog1 // 拥有的舔狗
 }
 
 // 一对多的关系
@@ -97,5 +97,56 @@ type Dog2 struct { // 舔狗
 type Girl2 struct { // 女神
 	ID   int `gorm:"primaryKey"`
 	Name string
-	Dogs []Dog2 // 拥有的舔狗，但不依赖
+	Dogs []Dog2 // 拥有的舔狗
+}
+
+// 多对多的关系
+type Dog3 struct { // 舔狗
+	ID    int `gorm:"primaryKey"`
+	Name  string
+	Girls []Girl3 `gorm:"many2many:dog_girl"` // 拥有的女神
+}
+
+// HasMany拥有
+type Girl3 struct { // 女神
+	ID   int `gorm:"primaryKey"`
+	Name string
+	Dogs []Dog3 `gorm:"many2many:dog_girl"` // 拥有的舔狗
+}
+
+// 多态
+type Tire struct { // 轮胎
+	ID   int `gorm:"primaryKey"`
+	Name string
+	// 下述字段，进行关联多态
+	OwnerID   int
+	OwnerType string
+}
+
+type Bike struct { // 单车
+	ID    int `gorm:"primaryKey"`
+	Name  string
+	Tires []Tire `gorm:"polymorphic:Owner"` // 多态
+}
+
+type Car struct { // 汽车
+	ID    int `gorm:"primaryKey"`
+	Name  string
+	Tires []Tire `gorm:"polymorphic:Owner"` // 多态
+}
+
+// 外键标签
+type Poet struct { // 诗人
+	ID   int `gorm:"primaryKey"`
+	Name string
+	// Peoms []Peom // 靠该字段，关联
+	// 诗歌的外键，是OwnerName，关联诗人的Name
+	Peoms []Peom `gorm:"foreignKey:Owner;references:Name"`
+}
+
+type Peom struct { // 诗歌
+	ID   int `gorm:"primaryKey"`
+	Name string
+	// PoetID int // 靠该字段，关联
+	Owner string
 }

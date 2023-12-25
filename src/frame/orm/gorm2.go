@@ -65,9 +65,11 @@ func one2one(db *gorm.DB) {
 	// err := db.AutoMigrate(&Dog0{}, &Girl0{})
 	// fmt.Println("AutoMigrate, err=", err)
 	if true { // BelongsTo属于1对1关系的演示
+		db.Migrator().DropTable(&Dog0{}, &Girl0{})
 		// 创建舔狗表的时候，会自动创建女神表
 		err := db.AutoMigrate(&Dog0{})
 		fmt.Println("AutoMigrate, err=", err)
+
 		// 舔狗属于女神，它有女神ID和女神结构体
 		d := Dog0{Name: "舔狗", Girl: Girl0{Name: "女神"}}
 		db.Debug().Create(&d)
@@ -85,8 +87,10 @@ func one2one(db *gorm.DB) {
 	}
 	if true { // HasOne拥有1对1关系的演示
 		// 各自创建舔狗表和女神表
+		db.Migrator().DropTable(&Girl1{}, &Dog1{})
 		err := db.AutoMigrate(&Girl1{}, &Dog1{})
 		fmt.Println("AutoMigrate, err=", err)
+
 		// 女神拥有舔狗，舔狗也有女神ID
 		// g := Girl1{Name: "女神"} // 狗的字段全空
 		g := Girl1{Name: "女神", Dog: Dog1{Name: "舔狗"}}
@@ -112,6 +116,7 @@ func one2many(db *gorm.DB) {
 	db.Migrator().DropTable(&Girl2{}, &Dog2{}, &DogInfo{})
 	err := db.AutoMigrate(&Girl2{}, &Dog2{}, &DogInfo{})
 	fmt.Println("AutoMigrate, err=", err)
+
 	g := Girl2{Name: "女神", Dogs: []Dog2{
 		{Name: "舔狗1", Info: DogInfo{Money: 10000}},
 		{Name: "舔狗2", Info: DogInfo{Money: 100}}}}
@@ -132,6 +137,56 @@ func one2many(db *gorm.DB) {
 }
 
 func many2many(db *gorm.DB) {
+	// 删除舔狗表和女神表时，不会删除关联关系表
+	db.Migrator().DropTable(&Girl3{}, &Dog3{}, "dog_girl")
+	// 自动创建Dog和关联关系表
+	err := db.AutoMigrate(&Girl3{})
+	fmt.Println("AutoMigrate, err=", err)
+
+	d1 := Dog3{Name: "舔狗1", ID: 1}
+	d2 := Dog3{Name: "舔狗2", ID: 2}
+	fmt.Println("dogs=", d1, d2)
+	g1 := Girl3{Name: "女神1", Dogs: []Dog3{d1, d2}}
+	g2 := Girl3{Name: "女神2", Dogs: []Dog3{d1, d2}}
+	fmt.Println("girls=", g1, g2)
+	db.Debug().Create(&g1)
+	db.Debug().Create(&g2)
+	// INSERT INTO `girl3` (`name`) VALUES ('女神1') RETURNING `id`
+	// INSERT INTO `dog3` (`name`,`id`) VALUES ('舔狗1',1),('舔狗2',2) ON DUPLICATE KEY UPDATE `id`=`id` RETURNING `id`
+	// INSERT INTO `dog_girl` (`girl3_id`,`dog3_id`) VALUES (2,1),(2,2) ON DUPLICATE KEY UPDATE `girl3_id`=`girl3_id`
+	db.Debug().Preload("Girls").Find(&d1)
+	db.Debug().Preload("Girls").Find(&d2)
+	fmt.Println("dogs=", d1, d2)
+	girls := []Girl3{}
+	db.Debug().Model(&d1).Preload("Dogs").Association("Girls").Find(&girls)
+	fmt.Println("girls=", girls)
+	db.Debug().Model(&d2).Association("Girls").Clear()
+	// DELETE FROM `dog_girl` WHERE `dog_girl`.`dog3_id` = 2
+	db.Debug().Model(&d2).Association("Girls").Replace(&g1, &g2)
+	// DELETE FROM `dog_girl` WHERE `dog_girl`.`dog3_id` = 2 AND `dog_girl`.`girl3_id` NOT IN (1,2)
+}
+
+func polyDemo(db *gorm.DB) {
+	db.Migrator().DropTable(&Tire{}, &Bike{}, &Car{})
+	// 自动创建Dog和关联关系表
+	err := db.AutoMigrate(&Tire{}, &Bike{}, &Car{})
+	fmt.Println("AutoMigrate, err=", err)
+
+	b := Bike{Name: "单车1", Tires: []Tire{{Name: "细轮胎"}}}
+	c := Car{Name: "汽车1", Tires: []Tire{{Name: "粗轮胎"}, {Name: "越野胎"}}}
+	db.Create(&b)
+	db.Create(&c)
+}
+
+func tagDemo(db *gorm.DB) {
+	// 删除舔狗表和女神表时，不会删除关联关系表
+	db.Migrator().DropTable(&Poet{}, &Peom{})
+	// 自动创建Dog和关联关系表
+	err := db.AutoMigrate(&Poet{}, &Peom{})
+	fmt.Println("AutoMigrate, err=", err)
+	p := Poet{Name: "李白", Peoms: []Peom{{Name: "静夜思"}, {Name: "蜀道难"}}}
+	db.Create(&p)
+	fmt.Println("Create, p=", p)
 }
 
 func GormDemo2() {
@@ -144,5 +199,7 @@ func GormDemo2() {
 	// recordDemo(db)
 	// one2one(db)
 	// one2many(db)
-	many2many(db)
+	// many2many(db)
+	// polyDemo(db)
+	tagDemo(db)
 }
