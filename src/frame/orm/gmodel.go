@@ -33,3 +33,14 @@ type UserDetail struct {
 	Birth  *time.Time   `gorm:"column:birthday"`   // 指明列名
 	Active sql.NullTime `gorm:"column:actived_at"` // 设置注释
 }
+
+// 完全无关的俩结构
+type Dog0 struct { // 舔狗
+	ID   int `gorm:"primaryKey"`
+	Name string
+}
+
+type Girl0 struct { // 女神
+	ID   int `gorm:"primaryKey"`
+	Name string
+}

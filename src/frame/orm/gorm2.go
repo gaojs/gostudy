@@ -21,8 +21,8 @@ func connDb() (db *gorm.DB) {
 	gormConfig := gorm.Config{ // 可以配置更多项
 		SkipDefaultTransaction: false,
 		NamingStrategy: schema.NamingStrategy{
-			TablePrefix:   "qm_", // 表名前缀
-			SingularTable: true,  // 表名使用单数
+			// TablePrefix:   "qm_", // 表名前缀
+			SingularTable: true, // 表名使用单数
 		},
 		DisableForeignKeyConstraintWhenMigrating: true, // 逻辑外键（代码中指定外键关系）
 	}
@@ -61,6 +61,11 @@ func recordDemo(db *gorm.DB) {
 	fmt.Println("Delete, ret.RowsAffected=", ret.RowsAffected)
 }
 
+func belongDemo(db *gorm.DB) {
+	err := db.AutoMigrate(&Dog0{}, &Girl0{})
+	fmt.Println("AutoMigrate, err=", err)
+}
+
 func GormDemo2() {
 	println("gorm()")
 	db := connDb()
@@ -68,5 +73,6 @@ func GormDemo2() {
 	sqlDb, _ := db.DB()
 	fmt.Printf("sqlDb=%T, %v\n", sqlDb, sqlDb)
 	// tableDemo(db)
-	recordDemo(db)
+	// recordDemo(db)
+	belongDemo(db)
 }
