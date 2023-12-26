@@ -24,7 +24,7 @@ func connDb() (db *gorm.DB) {
 			// TablePrefix:   "qm_", // 表名前缀
 			SingularTable: true, // 表名使用单数
 		},
-		DisableForeignKeyConstraintWhenMigrating: true, // 逻辑外键（代码中指定外键关系）
+		// DisableForeignKeyConstraintWhenMigrating: false, // 外键关系
 	}
 	db, err := gorm.Open(mysql.New(mysqlConfig), &gormConfig)
 	if err != nil {
@@ -81,11 +81,14 @@ func one2one(db *gorm.DB) {
 		// SELECT * FROM `girl0` WHERE `girl0`.`id` = 1
 		// SELECT * FROM `dog0` ORDER BY `dog0`.`id` LIMIT 1
 		fmt.Println("Preload, dog=", d0)
-		err = db.Debug().Model(&d0).Association("Girl").Delete(&d0.Girl)
+		// err = db.Debug().Model(&d0).Association("Girl").Delete(&d0.Girl)
 		// UPDATE `dog0` SET `girl`=NULL WHERE `dog0`.`id` = 1 AND `dog0`.`girl` = 1
-		fmt.Println("Association, err=", err, d0)
+		// fmt.Println("Association, err=", err, d0)
+		g := Girl0{ID: d.Girl.ID}
+		db.Debug().Delete(&g)
+		fmt.Println("Delete, g=", g)
 	}
-	if true { // HasOne拥有1对1关系的演示
+	if false { // HasOne拥有1对1关系的演示
 		// 各自创建舔狗表和女神表
 		db.Migrator().DropTable(&Girl1{}, &Dog1{})
 		err := db.AutoMigrate(&Girl1{}, &Dog1{})
@@ -197,9 +200,9 @@ func GormDemo2() {
 	fmt.Printf("sqlDb=%T, %v\n", sqlDb, sqlDb)
 	// tableDemo(db)
 	// recordDemo(db)
-	// one2one(db)
+	one2one(db)
 	// one2many(db)
 	// many2many(db)
 	// polyDemo(db)
-	tagDemo(db)
+	// tagDemo(db)
 }

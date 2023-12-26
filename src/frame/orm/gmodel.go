@@ -54,7 +54,7 @@ type Dog0 struct { // 舔狗
 	GirlID int `gorm:"column:girl_id"` // 所属女神的ID
 	// [error] define a valid foreign key for relations
 	// 有GirlID后，Girl才不会报上述的错误
-	Girl Girl0 // 所属女神
+	Girl Girl0 `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"` // 所属女神
 }
 
 type Girl0 struct { // 女神
